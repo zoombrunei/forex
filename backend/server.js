@@ -16,11 +16,14 @@ let ratesCache = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 60000; // 1 minute
 
-// Currency pairs to display (20 currencies)
+// Currency pairs to display (21 currencies - including NZD)
 const CURRENCY_PAIRS = [
   'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'INR',
-  'MYR', 'IDR', 'VND', 'TWD', 'THB', 'PHP', 'KRW', 'TRY', 'AED', 'SAR'
+  'MYR', 'IDR', 'VND', 'TWD', 'THB', 'PHP', 'KRW', 'TRY', 'AED', 'SAR', 'NZD'
 ];
+
+// Currencies to display as 1 [Currency] = X SGD (inverted format)
+const INVERTED_CURRENCIES = ['USD', 'AUD', 'GBP', 'EUR', 'CHF', 'CAD', 'NZD'];
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -65,6 +68,7 @@ app.get('/api/rates', async (req, res) => {
     const result = {
       base: 'SGD',
       rates: rates,
+      invertedCurrencies: INVERTED_CURRENCIES,
       timestamp: new Date().toISOString(),
       source: 'ExchangeRate-API'
     };
@@ -87,5 +91,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Forex Dashboard Backend running on http://localhost:${PORT}`);
   console.log(`📊 Get rates at http://localhost:${PORT}/api/rates`);
   console.log(`✅ CORS enabled - all requests allowed (no clicking needed!)`);
-  console.log(`📈 Tracking 20 currencies against SGD`);
+  console.log(`📈 Tracking 21 currencies (7 inverted, 14 standard format)`);
 });
