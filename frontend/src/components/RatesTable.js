@@ -33,6 +33,8 @@ function RatesTable({ rates }) {
     return <div>No rates available</div>;
   }
 
+  const invertedCurrencies = rates.invertedCurrencies || [];
+
   return (
     <div className="rates-container">
       <table className="rates-table">
@@ -40,8 +42,8 @@ function RatesTable({ rates }) {
           <tr>
             <th>Currency Pair</th>
             <th>Rate</th>
-            <th>1 SGD = </th>
-            <th>1 Currency = </th>
+            <th>Display</th>
+            <th>Reverse</th>
             <th>Change</th>
           </tr>
         </thead>
@@ -49,15 +51,30 @@ function RatesTable({ rates }) {
           {Object.entries(rates.rates).map(([currency, rate]) => {
             const change = rateChanges[currency];
             const rowClass = change === 'up' ? 'rate-up' : change === 'down' ? 'rate-down' : '';
+            const isInverted = invertedCurrencies.includes(currency);
+            
+            // Format display based on currency type
+            const displayLabel = isInverted 
+              ? `1 ${currency} =` 
+              : `1 SGD =`;
+            const displayValue = isInverted
+              ? `${rate.toFixed(4)} SGD`
+              : `${rate.toFixed(4)} ${currency}`;
+            const reverseLabel = isInverted
+              ? `1 SGD =`
+              : `1 ${currency} =`;
+            const reverseValue = isInverted
+              ? `${(1 / rate).toFixed(4)} ${currency}`
+              : `${(1 / rate).toFixed(4)} SGD`;
             
             return (
               <tr key={currency} className={rowClass}>
                 <td className="currency-pair">
-                  <strong>{currency}/SGD</strong>
+                  <strong>{isInverted ? `${currency}/SGD` : `SGD/${currency}`}</strong>
                 </td>
                 <td className="rate-value">{rate.toFixed(4)}</td>
-                <td className="conversion">{rate.toFixed(4)} {currency}</td>
-                <td className="reverse-conversion">{(1 / rate).toFixed(4)} SGD</td>
+                <td className="conversion">{displayLabel} {displayValue}</td>
+                <td className="reverse-conversion">{reverseLabel} {reverseValue}</td>
                 <td className="change-indicator">
                   {change === 'up' ? '📈 Up' : change === 'down' ? '📉 Down' : '➡️ Stable'}
                 </td>
