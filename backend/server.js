@@ -16,8 +16,11 @@ let ratesCache = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 60000; // 1 minute
 
-// Currency pairs to display
-const CURRENCY_PAIRS = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'INR'];
+// Currency pairs to display (20 currencies)
+const CURRENCY_PAIRS = [
+  'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'INR',
+  'MYR', 'IDR', 'VND', 'TWD', 'THB', 'PHP', 'KRW', 'TRY', 'AED', 'SAR'
+];
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -84,4 +87,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Forex Dashboard Backend running on http://localhost:${PORT}`);
   console.log(`📊 Get rates at http://localhost:${PORT}/api/rates`);
   console.log(`✅ CORS enabled - all requests allowed (no clicking needed!)`);
+  console.log(`📈 Tracking 20 currencies against SGD`);
 });
