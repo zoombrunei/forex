@@ -1,0 +1,9 @@
+{
+  "short_name": "Forex Dashboard",
+  "name": "Forex Dashboard - SGD Rates",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
